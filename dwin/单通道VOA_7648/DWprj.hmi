@@ -1,0 +1,21 @@
+[INIT]
+PICFIX=1
+VARCount=64
+Version=0
+ProVersion=648
+SCREENDSIZE=1024X600
+SPADDRESS=5000
+[IMG]
+00=00波长.png
+02=02衰减调节模式.png
+03=03功率补偿模式.png
+04=04设置界面.png
+05=05光路通断模式.png
+06=06弹窗效果.png
+07=07弹窗效果.png
+08=08dB.png
+09=09dBm.png
+10=10 1310.png
+11=11 1490.png
+12=12 1550.png
+13=13 1625.png
