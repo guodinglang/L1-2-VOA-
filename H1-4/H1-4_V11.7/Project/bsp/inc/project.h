@@ -1,0 +1,64 @@
+/*
+*********************************************************************************************************
+*
+*	模块名称 : include
+*	文件名称 : PulicIncludes
+*	版    本 : V1.0
+*	说    明 : 总的头文件。
+*	修改记录 :
+*     版本号     日期       作者      说明
+*
+*
+*      BLOG: http://blog.sina.com.cn/u/2565749395
+*********************************************************************************************************
+*/
+#ifndef __PROJECT_COMMON_H__
+#define __PROJECT_COMMON_H__
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#include <stdio.h>
+#include <stdint.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+
+//--------------------------------------------------
+// #include "at32f415.h"
+// #include "at32f415_clock.h"
+#include "at32f403a_407.h"
+#include "at32f403a_407_clock.h"
+// #include "ExternalAD.h"
+// #include "SimulateIIC.h"
+#include "Initial.h"
+#include "IOstream.h"
+#include "SerialPort.h"
+#include "Command.h"
+// #include "flash.h"
+#include "SPIdrive.h"
+#include "Function.h"
+// #include "AD5504.h"
+#include "Delay.h"
+// #include "InteriorAD.h"
+#include "buzzer.h"
+#include "w5500_conf.h"
+#include "simulateIIC.h"
+#include "socket.h"
+#include "lcd.h"
+#include "InteriorDAC.h"
+#include "GUI.h"
+#include "CH9434.h"
+#include "InsideCAN.h"
+
+    //--------------------------------------------------
+
+#endif
+
+#ifdef __cplusplus
+}
+#endif
