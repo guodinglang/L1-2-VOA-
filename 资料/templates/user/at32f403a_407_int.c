@@ -1,0 +1,289 @@
+/**
+ **************************************************************************
+ * @file     at32f403a_407_int.c
+ * @brief    main interrupt service routines.
+ **************************************************************************
+ *                       Copyright notice & Disclaimer
+ *
+ * The software Board Support Package (BSP) that is made available to
+ * download from Artery official website is the copyrighted work of Artery.
+ * Artery authorizes customers to use, copy, and distribute the BSP
+ * software and its related documentation for the purpose of design and
+ * development in conjunction with Artery microcontrollers. Use of the
+ * software is governed by this copyright notice and the following disclaimer.
+ *
+ * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
+ * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
+ * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
+ * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
+ * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+ *
+ **************************************************************************
+ */
+
+/* includes ------------------------------------------------------------------*/
+#include "at32f403a_407_int.h"
+#include "includes.h"
+#include "wiz_platform.h"
+
+/** @addtogroup AT32F403A_periph_examples
+ * @{
+ */
+
+/** @addtogroup 403A_USB_device_winusb
+ * @{
+ */
+
+/**
+ * @brief  this function handles nmi exception.
+ * @param  none
+ * @retval none
+ */
+void NMI_Handler(void)
+{
+}
+
+/**
+ * @brief  this function handles hard fault exception.
+ * @param  none
+ * @retval none
+ */
+// void HardFault_Handler(void)
+//{
+//   /* go to infinite loop when hard fault exception occurs */
+//   while(1)
+//   {
+//   }
+// }
+
+/**
+ * @brief  this function handles memory manage exception.
+ * @param  none
+ * @retval none
+ */
+void MemManage_Handler(void)
+{
+  /* go to infinite loop when memory manage exception occurs */
+  while (1)
+  {
+  }
+}
+
+/**
+ * @brief  this function handles bus fault exception.
+ * @param  none
+ * @retval none
+ */
+void BusFault_Handler(void)
+{
+  /* go to infinite loop when bus fault exception occurs */
+  while (1)
+  {
+  }
+}
+
+/**
+ * @brief  this function handles usage fault exception.
+ * @param  none
+ * @retval none
+ */
+void UsageFault_Handler(void)
+{
+  /* go to infinite loop when usage fault exception occurs */
+  while (1)
+  {
+  }
+}
+
+/**
+ * @brief  this function handles svcall exception.
+ * @param  none
+ * @retval none
+ */
+void SVC_Handler(void)
+{
+}
+
+/**
+ * @brief  this function handles debug monitor exception.
+ * @param  none
+ * @retval none
+ */
+void DebugMon_Handler(void)
+{
+}
+
+/**
+ * @brief  this function handles pendsv_handler exception.
+ * @param  none
+ * @retval none
+ */
+// void PendSV_Handler(void)
+//{
+// }
+
+/**
+ * @brief  this function handles systick handler.
+ * @param  none
+ * @retval none
+ */
+void SysTick_Handler(void)
+{
+}
+
+/**
+ * @brief  this function handles timer3 overflow handler.
+ * @param  none
+ * @retval none
+ */
+void TMR3_GLOBAL_IRQHandler(void)
+{
+  if (tmr_flag_get(TMR3, TMR_OVF_FLAG) != RESET)
+  {
+    rt_interrupt_enter();
+    rt_tick_increase();
+    rt_interrupt_leave();
+
+    BspUart_IrqProc();
+    BspComPort_RxIdleDec();
+    BspBuzzer_Irq();
+
+    if (AppCmdLine_Mgr.usBoardTimeCnt)
+    {
+      if (--AppCmdLine_Mgr.usBoardTimeCnt == 0)
+      {
+        AppCmdLine_Mgr.ucBoardIdx = AppInfo.ucDefaultPort;
+      }
+    }
+
+    tmr_flag_clear(TMR3, TMR_OVF_FLAG);
+  }
+}
+
+/**
+ * @brief  this function handles timer4 overflow handler.
+ * @param  none
+ * @retval none
+ */
+void TMR4_GLOBAL_IRQHandler(void)
+{
+  if (tmr_flag_get(TMR4, TMR_OVF_FLAG) != RESET)
+  {
+    wizchip_timer_callback();
+
+    tmr_flag_clear(TMR4, TMR_OVF_FLAG);
+  }
+}
+
+/**
+ * @brief  this function handles usart1 handler.
+ * @param  none
+ * @retval none
+ */
+void USART1_IRQHandler(void)
+{
+  const BspUart_S *p_Uart = &gUart1;
+
+  if (p_Uart->p_huart->ctrl1_bit.rdbfien != RESET)
+  {
+    if (usart_flag_get(p_Uart->p_huart, USART_RDBF_FLAG) != RESET)
+    {
+      BspUartRxCallBack((BspUart_S *)p_Uart);
+    }
+  }
+
+  if (p_Uart->p_huart->ctrl1_bit.tdbeien != RESET)
+  {
+    if (usart_flag_get(p_Uart->p_huart, USART_TDBE_FLAG) != RESET)
+    {
+      BspUartTxCallBack((BspUart_S *)p_Uart);
+    }
+  }
+
+  BspUartErrorCallBack((BspUart_S *)p_Uart);
+}
+
+/**
+ * @brief  this function handles usart2 handler.
+ * @param  none
+ * @retval none
+ */
+void USART2_IRQHandler(void)
+{
+  const BspUart_S *p_Uart = &gUart2;
+
+  if (p_Uart->p_huart->ctrl1_bit.rdbfien != RESET)
+  {
+    if (usart_flag_get(p_Uart->p_huart, USART_RDBF_FLAG) != RESET)
+    {
+      BspUartRxCallBack((BspUart_S *)p_Uart);
+    }
+  }
+
+  if (p_Uart->p_huart->ctrl1_bit.tdbeien != RESET)
+  {
+    if (usart_flag_get(p_Uart->p_huart, USART_TDBE_FLAG) != RESET)
+    {
+      BspUartTxCallBack((BspUart_S *)p_Uart);
+    }
+  }
+
+  BspUartErrorCallBack((BspUart_S *)p_Uart);
+}
+
+/**
+ * @brief  this function handles usart3 handler.
+ * @param  none
+ * @retval none
+ */
+void USART3_IRQHandler(void)
+{
+  const BspUart_S *p_Uart = &gUart3;
+
+  if (p_Uart->p_huart->ctrl1_bit.rdbfien != RESET)
+  {
+    if (usart_flag_get(p_Uart->p_huart, USART_RDBF_FLAG) != RESET)
+    {
+      BspUartRxCallBack((BspUart_S *)p_Uart);
+    }
+  }
+
+  if (p_Uart->p_huart->ctrl1_bit.tdbeien != RESET)
+  {
+    if (usart_flag_get(p_Uart->p_huart, USART_TDBE_FLAG) != RESET)
+    {
+      BspUartTxCallBack((BspUart_S *)p_Uart);
+    }
+  }
+
+  BspUartErrorCallBack((BspUart_S *)p_Uart);
+}
+
+/**
+ * @brief  this function handles uart4 handler.
+ * @param  none
+ * @retval none
+ */
+void UART4_IRQHandler(void)
+{
+  const BspUart_S *p_Uart = &gUart4;
+
+  if (p_Uart->p_huart->ctrl1_bit.rdbfien != RESET)
+  {
+    if (usart_flag_get(p_Uart->p_huart, USART_RDBF_FLAG) != RESET)
+    {
+      BspUartRxCallBack((BspUart_S *)p_Uart);
+    }
+  }
+
+  if (p_Uart->p_huart->ctrl1_bit.tdbeien != RESET)
+  {
+    if (usart_flag_get(p_Uart->p_huart, USART_TDBE_FLAG) != RESET)
+    {
+      BspUartTxCallBack((BspUart_S *)p_Uart);
+    }
+  }
+
+  BspUartErrorCallBack((BspUart_S *)p_Uart);
+}
