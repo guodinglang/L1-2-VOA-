@@ -85,8 +85,8 @@
 #define HOMEDING_SPEED   40000    // 归零移动速度（Hz）
 #define MOVE_SPEED       40000   // 移动速度（Hz）
 #define MOVE_COMP_SPEED  500   // 补偿移动速度（Hz）
-#define HOMEING_OFFSET   5000    // 归零偏移步数（微步）
-#define HOMEING_OFFSET_2 2000    // 归零偏移步数（微步）
+#define HOMEING_OFFSET   10000    // 归零偏移步数（微步）
+#define HOMEING_OFFSET_2 2000     // 归零偏移步数（微步）
 
 #define ENCODER_PER_REVOLUTION  4000        // 编码器一圈脉冲数
 #define ENCODER_CORRECT_INTERVAL 100         // 每50步检查一次编码器

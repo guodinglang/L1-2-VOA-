@@ -707,7 +707,7 @@ DriverError tmc2209_homing(uint32_t speed_hz)
         }
 		pin_states.org_state = g_origin_location_flag;
 		
-		if(timeout == 200) pin_states.org_state = 1;
+//		if(timeout == 200) pin_states.org_state = 1;
     }
 	
 	tmc2209_move_steps(HOMEING_OFFSET_2, (HOMEDING_SPEED), DIR_CW); // 先往反方向移动20000微步，保证离开归零位
@@ -738,7 +738,7 @@ DriverError tmc2209_homing(uint32_t speed_hz)
            return DRV_ERR_HOMING_TIMEOUT;
         }
 		pin_states.org_state = g_origin_location_flag;
-		if(timeout == 200) pin_states.org_state = 1;
+//		if(timeout == 200) pin_states.org_state = 1;
     }
 
     /* 设置当前位置为0 */
