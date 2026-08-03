@@ -861,7 +861,7 @@ void M_ORG_exti_config(void)
     exti_init_struct.line_enable = TRUE;
     exti_init_struct.line_mode = EXINT_LINE_INTERRUPUT;
     exti_init_struct.line_select = EXINT_LINE_12;
-    exti_init_struct.line_polarity = EXINT_TRIGGER_BOTH_EDGE;
+    exti_init_struct.line_polarity = EXINT_TRIGGER_RISING_EDGE;
     exint_init(&exti_init_struct);
     
     // ≈‰÷√NVIC
